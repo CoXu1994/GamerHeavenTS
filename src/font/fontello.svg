@@ -1,0 +1,26 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2023 by original authors @ fontello.com</metadata>
+<defs>
+<font id="fontello" horiz-adv-x="1000" >
+<font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="plus-squared" unicode="&#xe800;" d="M700 750q42 0 71-29t29-71l0-600q0-40-29-70t-71-30l-600 0q-40 0-70 30t-30 70l0 600q0 42 30 71t70 29l600 0z m-50-450l0 100-200 0 0 200-100 0 0-200-200 0 0-100 200 0 0-200 100 0 0 200 200 0z" horiz-adv-x="800" />
+
+<glyph glyph-name="cancel-squared" unicode="&#xe801;" d="M700 750q42 0 71-29t29-71l0-600q0-40-29-70t-71-30l-600 0q-40 0-70 30t-30 70l0 600q0 42 30 71t70 29l600 0z m-146-638l86 86-154 152 154 154-86 86-154-152-152 152-88-86 154-154-154-152 88-86 152 152z" horiz-adv-x="800" />
+
+<glyph glyph-name="right-open-big" unicode="&#xe802;" d="M13-20l358 370-358 372q-26 26 0 48 26 26 48 0l392-394q24-26 0-50l-392-394q-22-26-48 0-26 22 0 48z" horiz-adv-x="465" />
+
+<glyph glyph-name="left-open-big" unicode="&#xe803;" d="M452-20q26-26 0-48-26-26-48 0l-392 394q-24 24 0 50l392 394q22 26 48 0 26-22 0-48l-358-372z" horiz-adv-x="465" />
+
+<glyph glyph-name="right" unicode="&#xe804;" d="M350 680l380-330-380-330 0 192-350 0 0 278 350 0 0 190z" horiz-adv-x="730" />
+
+<glyph glyph-name="left" unicode="&#xe805;" d="M378 20l-378 330 378 330 0-190 352 0 0-278-352 0 0-192z" horiz-adv-x="730" />
+
+<glyph glyph-name="sort" unicode="&#xf0dc;" d="M571 243q0-15-10-25l-250-250q-11-11-25-11t-25 11l-250 250q-11 10-11 25t11 25 25 11h500q14 0 25-11t10-25z m0 214q0-14-10-25t-25-11h-500q-15 0-25 11t-11 25 11 25l250 250q10 11 25 11t25-11l250-250q10-10 10-25z" horiz-adv-x="571.4" />
+
+<glyph glyph-name="gamepad" unicode="&#xf11b;" d="M464 243v71q0 8-5 13t-13 5h-107v107q0 8-5 13t-13 5h-71q-8 0-13-5t-5-13v-107h-107q-8 0-13-5t-5-13v-71q0-8 5-13t13-5h107v-107q0-8 5-13t13-5h71q8 0 13 5t5 13v107h107q8 0 13 5t5 13z m322-36q0 30-21 51t-51 21-50-21-21-51 21-50 50-21 51 21 21 50z m143 143q0 30-21 51t-51 20-50-20-21-51 21-50 50-21 51 21 21 50z m142-71q0-119-83-202t-202-84q-107 0-189 71h-123q-81-71-188-71-119 0-202 84t-84 202 84 202 202 83h500q118 0 202-83t83-202z" horiz-adv-x="1071.4" />
+</font>
+</defs>
+</svg>

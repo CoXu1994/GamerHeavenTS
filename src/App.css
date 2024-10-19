@@ -1,0 +1,9 @@
+* {
+	box-sizing: border-box;
+	font-family: "Tektur", cursive;
+	color: white;
+}
+
+body {
+	background-color: black;
+}
