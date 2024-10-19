@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
+import GameList from "./components/GameList";
 
 export const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <div>Front Page</div>,
+		element: <GameList />,
 	},
 	{
 		path: "/games/:gameId",
