@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import GameCard from "./GameCard";
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiHost = import.meta.env.VITE_API_HOST;
 
-type Game = {
+export type gameData = {
 	id: number;
 	name: string;
 	background_image: string;
@@ -30,24 +31,20 @@ const GameList = () => {
 	}, []);
 
 	return (
-		<div style={{ display: "flex", flexWrap: "wrap" }}>
-			{games.map((game: Game) => (
-				<div key={game.id}>
-					<h2>{game.name}</h2>
-					<img
-						src={game.background_image}
-						alt={game.name}
-						style={{ height: "300px", width: "400px" }}
+		<>
+			<div style={{ display: "flex", flexWrap: "wrap" }}>
+				{games.map((game: gameData) => (
+					<GameCard
+						key={game.id}
+						game={game}
 					/>
-					<div>Metacritics score: {game.metacritic}</div>
-					{/* <pre>{JSON.stringify(game, null, 2)}</pre> */}
-				</div>
-			))}
+				))}
+			</div>
 			<div>
 				<button style={{ background: "gray" }}>Previous</button>
 				<button style={{ background: "gray" }}>Next</button>
 			</div>
-		</div>
+		</>
 	);
 };
 
