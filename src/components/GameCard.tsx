@@ -9,7 +9,7 @@ const GameCard = ({ game }: gameCardProps) => {
 		<>
 			<div>
 				<h3>{game.name}</h3>
-				<Link to={`/gameCard/${game.id}`}>
+				<Link to={`/games/${game.id}`}>
 					<img
 						src={game.background_image}
 						alt={game.name}

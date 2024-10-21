@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import GameList from "./components/GameList";
+import GameDetails from "./components/GameDetails";
 
 export const router = createBrowserRouter([
 	{
@@ -8,10 +9,10 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: "/games/:gameId",
-		element: <div>Game Details</div>,
+		element: <GameDetails />,
 	},
-	{
-		path: "/wishlist",
-		element: <div>Wishlist</div>,
-	},
+	// {
+	// 	path: "/wishlist",
+	// 	element: <div>Wishlist</div>,
+	// },
 ]);
