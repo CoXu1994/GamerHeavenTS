@@ -3,24 +3,32 @@ import { useParams } from "react-router-dom";
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiHost = import.meta.env.VITE_API_HOST;
 
-type gameDetailsData = {
+interface gameDetailsData {
 	id: number;
 	name: string;
 	description_raw: string;
-	esrb_rating: string;
+	esrb_rating: esrbTyping;
 	metacritic: string;
-	platforms: [];
+	platforms: [platformDetailsType];
 	background_image: string;
+}
+
+type esrbTyping = {
+	name: string;
 };
 
-type platformType = {
+type platformDetailsType = {
+	platform: platformTyping;
+};
+
+type platformTyping = {
 	id: number;
 	name: string;
 };
 
 const GameDetails = () => {
 	const { gameId } = useParams();
-	const [game, setGame] = useState({});
+	const [game, setGame] = useState<Partial<gameDetailsData>>({});
 
 	async function getGamesApi(signal: AbortSignal) {
 		const response = await fetch(
@@ -38,12 +46,11 @@ const GameDetails = () => {
 		return () => {
 			controller.abort();
 		};
-	}, []);
+	});
 
 	if (Object.keys(game).length === 0) {
 		return <p>Loading...</p>;
 	}
-
 	return (
 		<>
 			<div>
@@ -65,7 +72,8 @@ const GameDetails = () => {
 					<div>
 						<span>ESRB rating: </span>
 						<span>
-							{game.esrb_rating !== null && game.esrb_rating.name}
+							{game.esrb_rating !== null &&
+								game.esrb_rating?.name}
 							{game.esrb_rating == null && "-"}
 						</span>
 					</div>
@@ -81,11 +89,13 @@ const GameDetails = () => {
 						<h3>Platforms: </h3>
 						<div>
 							-{" "}
-							{game.platforms.map((item) => (
-								<span key={item.platform.id}>
-									{item.platform.name} -{" "}
-								</span>
-							))}
+							{game.platforms?.map(
+								(item: platformDetailsType) => (
+									<span key={item.platform.id}>
+										{item.platform.name} -{" "}
+									</span>
+								)
+							)}
 						</div>
 					</div>
 				</div>
