@@ -3,12 +3,26 @@ const apiKey = import.meta.env.VITE_API_KEY;
 const apiHost = import.meta.env.VITE_API_HOST;
 
 type filterType = {
+	id: number;
 	name: string;
+	slug: string;
+};
+
+type gameType = {
+	name: string;
+	id: number;
+};
+
+type paramsType = {
+	genres?: string;
+	platforms?: string;
 };
 
 const Filters = () => {
 	const [apiGenres, setApiGenres] = useState([]);
 	const [apiPlatforms, setApiPlatforms] = useState([]);
+	const [games, setGames] = useState([]);
+	const [params, setParams] = useState({});
 
 	async function getGenres(signal: AbortSignal) {
 		const response = await fetch(
@@ -26,6 +40,38 @@ const Filters = () => {
 		return response.json();
 	}
 
+	async function getGames(params: paramsType) {
+		const urlParams = new URLSearchParams({
+			key: apiKey,
+			...params,
+		});
+
+		const url = `https://${apiHost}/api/games?${urlParams.toString()}`;
+
+		const response = await fetch(url);
+
+		if (!response.ok) {
+			throw new Error("Błąd przy pobieraniu danych");
+		}
+
+		return response.json();
+	}
+
+	const handleSelectPlatform = (
+		event: React.ChangeEvent<HTMLSelectElement>
+	) => {
+		setParams((prevState) => ({
+			...prevState,
+			platforms: event.target.value,
+		}));
+		getGames(params).then((data) => setGames(data.results));
+	};
+
+	const handleSelectCategory = (selectedGenre: string) => {
+		setParams((prevState) => ({ ...prevState, genres: selectedGenre }));
+		getGames(params).then((data) => setGames(data.results));
+	};
+
 	useEffect(() => {
 		const controller = new AbortController();
 		getGenres(controller.signal).then((data) => setApiGenres(data.results));
@@ -36,21 +82,43 @@ const Filters = () => {
 			controller.abort();
 		};
 	}, []);
-	console.log(apiGenres);
+
+	console.log(params);
+
 	return (
 		<>
 			<div>
+				<span>Wybierz Categorie</span>
 				{apiGenres.map((genre: filterType) => (
-					<button>{genre.name}</button>
+					<button
+						key={genre.id}
+						onClick={() => handleSelectCategory(genre.slug)}
+					>
+						{genre.name}
+					</button>
 				))}
 			</div>
 			<div>
 				<label htmlFor="platform">Platform</label>
-				<select id="platform">
+				<select
+					id="platform"
+					onChange={handleSelectPlatform}
+				>
+					<option value="">Wybierz Platformę</option>
 					{apiPlatforms.map((platform: filterType) => (
-						<option>{platform.name}</option>
+						<option
+							key={platform.id}
+							value={platform.slug}
+						>
+							{platform.name}
+						</option>
 					))}
 				</select>
+			</div>
+			<div>
+				{games.map((game: gameType) => (
+					<div key={game.id}>{game.name}</div>
+				))}
 			</div>
 		</>
 	);
