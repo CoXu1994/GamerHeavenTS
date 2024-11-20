@@ -3,6 +3,7 @@ import GameList from "./components/GameList";
 import GameDetails from "./components/GameDetails";
 import Layout from "./components/Layout";
 import Filters from "./components/Filters";
+import SearchBar from "./components/SearchBar";
 
 export const router = createBrowserRouter([
 	{
@@ -20,7 +21,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/wishlist",
-				element: <div>Wishlist</div>,
+				element: <SearchBar />,
 			},
 			{
 				path: "/categories",
