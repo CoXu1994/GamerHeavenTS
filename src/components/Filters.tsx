@@ -16,7 +16,25 @@ type gameType = {
 type paramsType = {
 	genres?: string;
 	platforms?: string;
+	ordering?: string;
 };
+
+const sortOptions = [
+	"name",
+	"-name",
+	"released",
+	"-released",
+	"added",
+	"-added",
+	"created",
+	"-created",
+	"updated",
+	"-updated",
+	"rating",
+	"-rating",
+	"metacritic",
+	"-metacritic",
+];
 
 const Filters = () => {
 	const [apiGenres, setApiGenres] = useState([]);
@@ -47,7 +65,7 @@ const Filters = () => {
 		});
 
 		const url = `https://${apiHost}/api/games?${urlParams.toString()}`;
-
+		console.log(url);
 		const response = await fetch(url);
 
 		if (!response.ok) {
@@ -56,6 +74,13 @@ const Filters = () => {
 
 		return response.json();
 	}
+	const handleSelectOrder = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		setParams((prevState) => ({
+			...prevState,
+			ordering: event.target.value,
+		}));
+		getGames(params).then((data) => setGames(data.results));
+	};
 
 	const handleSelectPlatform = (
 		event: React.ChangeEvent<HTMLSelectElement>
@@ -83,6 +108,7 @@ const Filters = () => {
 		};
 	}, []);
 
+	console.log(games);
 	console.log(params);
 
 	return (
@@ -111,6 +137,23 @@ const Filters = () => {
 							value={platform.slug}
 						>
 							{platform.name}
+						</option>
+					))}
+				</select>
+			</div>
+			<div>
+				<label htmlFor="sortBy">Sort by:</label>
+				<select
+					id="sortBy"
+					onChange={handleSelectOrder}
+				>
+					<option value="">Sort options</option>
+					{sortOptions.map((sortOption) => (
+						<option
+							key={sortOption}
+							value={sortOption}
+						>
+							{sortOption}
 						</option>
 					))}
 				</select>
