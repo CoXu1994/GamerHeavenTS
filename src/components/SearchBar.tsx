@@ -2,6 +2,11 @@ import { useState } from "react";
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiHost = import.meta.env.VITE_API_HOST;
 
+type foundGame = {
+	id: number;
+	name: string;
+};
+
 const SearchBar = () => {
 	const [searchGame, setSearchGame] = useState("");
 	const [finds, setFinds] = useState([]);
@@ -27,7 +32,9 @@ const SearchBar = () => {
 				onChange={handleSearching}
 			/>
 			{finds.length > 0 &&
-				finds.map((found) => <div key={found.id}>{found.name}</div>)}
+				finds.map((found: foundGame) => (
+					<div key={found.id}>{found.name}</div>
+				))}
 		</>
 	);
 };
