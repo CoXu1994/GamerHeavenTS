@@ -1,56 +1,23 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-const apiKey = import.meta.env.VITE_API_KEY;
-const apiHost = import.meta.env.VITE_API_HOST;
+import useFetchedGame from "../hooks/useFetchedGame";
+import { gameDetailsType, platformDetailsType } from "./GameTypes";
 
-interface gameDetailsData {
-	id: number;
-	name: string;
-	description_raw: string;
-	esrb_rating: esrbTyping;
-	metacritic: string;
-	platforms: [platformDetailsType];
-	background_image: string;
-}
-
-type esrbTyping = {
-	name: string;
+type gameResponse = {
+	game: gameDetailsType | null;
+	error?: string | null;
 };
-
-type platformDetailsType = {
-	platform: platformTyping;
-};
-
-type platformTyping = {
-	id: number;
-	name: string;
-};
-
 const GameDetails = () => {
 	const { gameId } = useParams();
-	const [game, setGame] = useState<Partial<gameDetailsData>>({});
+	const { game, error }: gameResponse = useFetchedGame(gameId);
 
-	async function getGamesApi(signal: AbortSignal) {
-		const response = await fetch(
-			`https://${apiHost}/api/games/${gameId}?key=${apiKey}`,
-			{ signal }
-		);
-		return response.json();
+	if (error) {
+		return <h2>Error: {error}</h2>;
 	}
 
-	useEffect(() => {
-		const controller = new AbortController();
-
-		getGamesApi(controller.signal).then((data) => setGame(data));
-
-		return () => {
-			controller.abort();
-		};
-	});
-
-	if (Object.keys(game).length === 0) {
-		return <p>Loading...</p>;
+	if (!game) {
+		return <h2>Loading...</h2>;
 	}
+
 	return (
 		<>
 			<div>
