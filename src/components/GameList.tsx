@@ -1,39 +1,27 @@
-import { useEffect, useState } from "react";
 import GameCard from "./GameCard";
-const apiKey = import.meta.env.VITE_API_KEY;
-const apiHost = import.meta.env.VITE_API_HOST;
+import useFetchedGames from "../hooks/useFetchedGames";
+import { gameDetailsType, gamesData } from "./GameTypes";
 
-export type gameData = {
-	id: number;
-	name: string;
-	background_image: string;
-	metacritic: number;
+type gamesResponse = {
+	games: gamesData | null;
+	error?: string | null;
 };
 
-async function getGamesApi(signal: AbortSignal) {
-	const response = await fetch(
-		`https://${apiHost}/api/games?key=${apiKey}&page_size=12`,
-		{ signal }
-	);
-	return response.json();
-}
 const GameList = () => {
-	const [games, setGames] = useState([]);
+	const { games, error }: gamesResponse = useFetchedGames({});
 
-	useEffect(() => {
-		const controller = new AbortController();
+	if (error) {
+		return <h2>Error: {error}</h2>;
+	}
 
-		getGamesApi(controller.signal).then((data) => setGames(data.results));
-
-		return () => {
-			controller.abort();
-		};
-	}, []);
+	if (!games) {
+		return <h2>Loading...</h2>;
+	}
 
 	return (
 		<>
 			<div style={{ display: "flex", flexWrap: "wrap" }}>
-				{games.map((game: gameData) => (
+				{games?.results.map((game: gameDetailsType) => (
 					<GameCard
 						key={game.id}
 						game={game}

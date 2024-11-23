@@ -1,45 +1,38 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import filterType from "../components/FilterTypes";
-import { gameDetailsType } from "../components/GameTypes";
+import { gamesData } from "../components/GameTypes";
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiHost = import.meta.env.VITE_API_HOST;
 
-const localCache: Record<string, gameDetailsType> = {};
-
-const useFetchedGames = ({ platform, genre, sortBy }: filterType) => {
-	const [games, setGames] = useState<gameDetailsType | null>(null);
+const useFetchedGames = ({
+	platform = "",
+	genre = "",
+	sortBy = "",
+}: filterType) => {
+	const [games, setGames] = useState<gamesData | null>(null);
 	const [error, setError] = useState<string | null>(null);
-
-	let cacheKey = "";
-
-	if (platform || genre || sortBy) {
-		cacheKey = `${platform}${genre}${sortBy}`;
-	}
 
 	useEffect(() => {
 		const controller = new AbortController();
 
 		const fetchGames = async () => {
 			try {
-				if (localCache[cacheKey]) {
-					console.log("Using cached data");
-					setGames(localCache[cacheKey]);
-					return;
-				}
+				const params: Record<string, string> = {
+					key: apiKey,
+				};
+
+				if (platform) params.platforms = platform;
+				if (genre) params.genres = genre;
+				if (sortBy) params.ordering = sortBy;
+
 				const response = await axios.get("/games", {
 					baseURL: `https://${apiHost}/api`,
 					signal: controller.signal,
-					params: {
-						key: apiKey,
-						platforms: platform,
-						ordering: sortBy,
-						genres: genre,
-					},
+					params,
 				});
 				if (response.data.status !== 0) {
-					localCache[cacheKey] = response.data;
-					setGames(localCache[cacheKey]);
+					setGames(response.data);
 				} else {
 					setGames(null);
 				}
@@ -56,15 +49,11 @@ const useFetchedGames = ({ platform, genre, sortBy }: filterType) => {
 			}
 		};
 
-		if (!localCache[cacheKey]) {
-			fetchGames();
-		}
-
+		fetchGames();
 		return () => {
 			controller.abort();
 		};
-	}, [platform, genre, sortBy, cacheKey]);
-
+	}, [platform, genre, sortBy]);
 	return { games, error };
 };
 

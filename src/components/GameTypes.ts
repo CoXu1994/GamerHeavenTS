@@ -12,6 +12,10 @@ type esrbTyping = {
 	name: string;
 };
 
+export type gamesData = {
+	results: gameDetailsType[];
+};
+
 export type platformDetailsType = {
 	platform: platformTyping;
 };
