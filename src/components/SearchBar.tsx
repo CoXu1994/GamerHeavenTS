@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiHost = import.meta.env.VITE_API_HOST;
 
@@ -33,7 +34,9 @@ const SearchBar = () => {
 			/>
 			{finds.length > 0 &&
 				finds.map((found: foundGame) => (
-					<div key={found.id}>{found.name}</div>
+					<Link to={`/games/${found.id}`}>
+						<div key={found.id}>{found.name}</div>
+					</Link>
 				))}
 		</>
 	);
