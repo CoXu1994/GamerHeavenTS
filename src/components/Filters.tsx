@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { CATEGORIES, PLATFORMS, SORT_BY } from "./FiltersConstants";
+import GameCard from "./GameCard";
+import { gameDetailsType } from "./GameTypes";
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiHost = import.meta.env.VITE_API_HOST;
 
-type filterType = {
+type FilterType<T = unknown> = {
 	id: number;
 	name: string;
-	slug: string;
-};
+} & T;
 
-type gameType = {
-	name: string;
-	id: number;
-};
+type GenreType = FilterType<{ slug: string }>;
+type PlatformType = FilterType;
 
 type paramsType = {
 	genres?: string;
@@ -19,53 +19,18 @@ type paramsType = {
 	ordering?: string;
 };
 
-const sortOptions = [
-	"name",
-	"-name",
-	"released",
-	"-released",
-	"added",
-	"-added",
-	"created",
-	"-created",
-	"updated",
-	"-updated",
-	"rating",
-	"-rating",
-	"metacritic",
-	"-metacritic",
-];
-
 const Filters = () => {
-	const [apiGenres, setApiGenres] = useState([]);
-	const [apiPlatforms, setApiPlatforms] = useState([]);
 	const [games, setGames] = useState([]);
-	const [params, setParams] = useState({});
-
-	async function getGenres(signal: AbortSignal) {
-		const response = await fetch(
-			`https://${apiHost}/api/genres?key=${apiKey}`,
-			{ signal }
-		);
-		return response.json();
-	}
-
-	async function getPlatforms(signal: AbortSignal) {
-		const response = await fetch(
-			`https://${apiHost}/api/platforms?key=${apiKey}`,
-			{ signal }
-		);
-		return response.json();
-	}
+	const [params, setParams] = useState<paramsType>({});
+	const [shouldFetch, setShouldFetch] = useState(false);
 
 	async function getGames(params: paramsType) {
 		const urlParams = new URLSearchParams({
 			key: apiKey,
 			...params,
 		});
-
+		console.log(urlParams);
 		const url = `https://${apiHost}/api/games?${urlParams.toString()}`;
-		console.log(url);
 		const response = await fetch(url);
 
 		if (!response.ok) {
@@ -75,47 +40,37 @@ const Filters = () => {
 		return response.json();
 	}
 	const handleSelectOrder = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		setParams((prevState) => ({
-			...prevState,
+		setParams({
+			...params,
 			ordering: event.target.value,
-		}));
-		getGames(params).then((data) => setGames(data.results));
+		});
+		setShouldFetch(true);
 	};
 
 	const handleSelectPlatform = (
 		event: React.ChangeEvent<HTMLSelectElement>
 	) => {
-		setParams((prevState) => ({
-			...prevState,
+		setParams({
+			...params,
 			platforms: event.target.value,
-		}));
-		getGames(params).then((data) => setGames(data.results));
+		});
+		setShouldFetch(true);
 	};
 
 	const handleSelectCategory = (selectedGenre: string) => {
-		setParams((prevState) => ({ ...prevState, genres: selectedGenre }));
-		getGames(params).then((data) => setGames(data.results));
+		setParams({ ...params, genres: selectedGenre });
+		setShouldFetch(true);
 	};
 
 	useEffect(() => {
-		const controller = new AbortController();
-		getGenres(controller.signal).then((data) => setApiGenres(data.results));
-		getPlatforms(controller.signal).then((data) =>
-			setApiPlatforms(data.results)
-		);
-		return () => {
-			controller.abort();
-		};
-	}, []);
-
-	console.log(games);
-	console.log(params);
-
+		if (!shouldFetch) return;
+		getGames(params).then((data) => setGames(data.results));
+	}, [params, shouldFetch]);
 	return (
 		<>
 			<div>
 				<span>Wybierz Categorie</span>
-				{apiGenres.map((genre: filterType) => (
+				{CATEGORIES.map((genre: GenreType) => (
 					<button
 						key={genre.id}
 						onClick={() => handleSelectCategory(genre.slug)}
@@ -131,10 +86,10 @@ const Filters = () => {
 					onChange={handleSelectPlatform}
 				>
 					<option value="">Wybierz Platformę</option>
-					{apiPlatforms.map((platform: filterType) => (
+					{PLATFORMS.map((platform: PlatformType) => (
 						<option
 							key={platform.id}
-							value={platform.slug}
+							value={platform.id}
 						>
 							{platform.name}
 						</option>
@@ -148,7 +103,7 @@ const Filters = () => {
 					onChange={handleSelectOrder}
 				>
 					<option value="">Sort options</option>
-					{sortOptions.map((sortOption) => (
+					{SORT_BY.map((sortOption) => (
 						<option
 							key={sortOption}
 							value={sortOption}
@@ -159,9 +114,20 @@ const Filters = () => {
 				</select>
 			</div>
 			<div>
-				{games.map((game: gameType) => (
-					<div key={game.id}>{game.name}</div>
-				))}
+				{games.length > 0 ? (
+					games.map((game: gameDetailsType) => (
+						<GameCard
+							key={game.id}
+							game={game}
+						/>
+					))
+				) : (
+					<p>Brak wyników do wyświetlenia.</p>
+				)}
+			</div>
+			<div>
+				<button>Previous</button>
+				<button>Next</button>
 			</div>
 		</>
 	);
