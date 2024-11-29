@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import useFetchedGame from "../hooks/useFetchedGame";
 import { gameDetailsType, platformDetailsType } from "./GameTypes";
+import { addToWishlist } from "./WishlistOperations";
 
 type gameResponse = {
 	game: gameDetailsType | null;
@@ -72,9 +73,11 @@ const GameDetails = () => {
 						Find more at https://rawg.io/apidocs{" "}
 					</a>
 				</p>
-				<button>
+				<button style={{ background: "gray" }}>
 					<span className="btn__icon icon-plus-squared"></span>
-					<span>Add to Wishlist</span>
+					<span onClick={() => addToWishlist(game)}>
+						Add to Wishlist
+					</span>
 				</button>
 			</div>
 		</>
