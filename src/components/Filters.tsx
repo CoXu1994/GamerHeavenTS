@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CATEGORIES, PLATFORMS, SORT_BY } from "./FiltersConstants";
 import GameCard from "./GameCard";
-import { gameDetailsType } from "./GameTypes";
-const apiKey = import.meta.env.VITE_API_KEY;
-const apiHost = import.meta.env.VITE_API_HOST;
+import { gameDetailsType, gamesData } from "./GameTypes";
+import useFetchedGames from "../hooks/useFetchedGames";
 
 type FilterType<T = unknown> = {
 	id: number;
@@ -18,54 +17,47 @@ type paramsType = {
 	platforms?: string;
 	ordering?: string;
 };
+type gamesResponse = {
+	games: gamesData | null;
+	error?: string | null;
+};
 
 const Filters = () => {
-	const [games, setGames] = useState([]);
-	const [params, setParams] = useState<paramsType>({});
-	const [shouldFetch, setShouldFetch] = useState(false);
+	const [params, setParams] = useState<paramsType | null>(null);
 
-	async function getGames(params: paramsType) {
-		const urlParams = new URLSearchParams({
-			key: apiKey,
-			...params,
-		});
-		console.log(urlParams);
-		const url = `https://${apiHost}/api/games?${urlParams.toString()}`;
-		const response = await fetch(url);
+	// Warunkowe użycie hooka — domyślnie shouldFetch włącza się tylko, gdy params istnieją
+	const { games, error }: gamesResponse = useFetchedGames({
+		...params,
+		shouldFetch: !!params,
+	});
 
-		if (!response.ok) {
-			throw new Error("Błąd przy pobieraniu danych");
-		}
-
-		return response.json();
-	}
 	const handleSelectOrder = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		setParams({
-			...params,
+		setParams((prevParams) => ({
+			...prevParams,
 			ordering: event.target.value,
-		});
-		setShouldFetch(true);
+		}));
 	};
 
 	const handleSelectPlatform = (
 		event: React.ChangeEvent<HTMLSelectElement>
 	) => {
-		setParams({
-			...params,
+		setParams((prevParams) => ({
+			...prevParams,
 			platforms: event.target.value,
-		});
-		setShouldFetch(true);
+		}));
 	};
 
 	const handleSelectCategory = (selectedGenre: string) => {
-		setParams({ ...params, genres: selectedGenre });
-		setShouldFetch(true);
+		setParams((prevParams) => ({
+			...prevParams,
+			genres: selectedGenre,
+		}));
 	};
 
-	useEffect(() => {
-		if (!shouldFetch) return;
-		getGames(params).then((data) => setGames(data.results));
-	}, [params, shouldFetch]);
+	if (error) {
+		return <h2>Error: {error}</h2>;
+	}
+
 	return (
 		<>
 			<div>
@@ -114,15 +106,15 @@ const Filters = () => {
 				</select>
 			</div>
 			<div>
-				{games.length > 0 ? (
-					games.map((game: gameDetailsType) => (
+				{!games ? (
+					<p>Brak wyników do wyświetlenia.</p>
+				) : (
+					games.results.map((game: gameDetailsType) => (
 						<GameCard
 							key={game.id}
 							game={game}
 						/>
 					))
-				) : (
-					<p>Brak wyników do wyświetlenia.</p>
 				)}
 			</div>
 			<div>

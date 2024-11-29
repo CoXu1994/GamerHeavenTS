@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import filterType from "../components/FilterTypes";
 import { gamesData } from "../components/GameTypes";
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiHost = import.meta.env.VITE_API_HOST;
@@ -9,11 +8,19 @@ const useFetchedGames = ({
 	platform = "",
 	genre = "",
 	sortBy = "",
-}: filterType) => {
+	shouldFetch = true,
+}: {
+	platform?: string;
+	genre?: string;
+	sortBy?: string;
+	shouldFetch?: boolean;
+}) => {
 	const [games, setGames] = useState<gamesData | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
+		if (!shouldFetch) return;
+
 		const controller = new AbortController();
 
 		const fetchGames = async () => {
@@ -53,7 +60,8 @@ const useFetchedGames = ({
 		return () => {
 			controller.abort();
 		};
-	}, [platform, genre, sortBy]);
+	}, [platform, genre, sortBy, shouldFetch]);
+
 	return { games, error };
 };
 
