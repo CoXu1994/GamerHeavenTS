@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import useFetchedGame from "../hooks/useFetchedGame";
 import { gameDetailsType, platformDetailsType } from "./GameTypes";
 import { addToWishlist } from "./WishlistOperations";
+import { Box, Typography, Button } from "@mui/material";
 
 type gameResponse = {
 	game: gameDetailsType | null;
@@ -12,75 +13,149 @@ const GameDetails = () => {
 	const { game, error }: gameResponse = useFetchedGame(gameId);
 
 	if (error) {
-		return <h2>Error: {error}</h2>;
+		return (
+			<Typography
+				variant="h3"
+				component="h2"
+				fontFamily="Tektur, cursive"
+				sx={{
+					textAlign: "center",
+				}}
+			>
+				Error: {error}
+			</Typography>
+		);
 	}
 
 	if (!game) {
-		return <h2>Loading...</h2>;
+		return (
+			<Typography
+				variant="h3"
+				component="h2"
+				fontFamily="Tektur, cursive"
+				sx={{
+					textAlign: "center",
+				}}
+			>
+				Loading...
+			</Typography>
+		);
 	}
 
 	return (
-		<>
-			<div>
-				<img
-					src={game.background_image}
-					alt={game.name}
-				/>
+		<Box
+			component="section"
+			sx={{ p: 2 }}
+		>
+			<img
+				src={game.background_image}
+				alt={game.name}
+				style={{ width: "100%" }}
+			/>
 
-				<div>
-					<h2>{game.name}</h2>
-				</div>
+			<Typography
+				variant="h3"
+				component="h1"
+				fontFamily="Tektur, cursive"
+			>
+				{game.name}
+			</Typography>
 
-				<div>
-					<h3>Description</h3>
-					<p>{game.description_raw}</p>
-				</div>
+			<Typography
+				variant="h6"
+				component="h3"
+				fontFamily="Tektur, cursive"
+			>
+				Description
+			</Typography>
+			<Typography
+				variant="body2"
+				fontFamily="Tektur, cursive"
+			>
+				{game.description_raw}
+			</Typography>
 
-				<div>
-					<div>
-						<span>ESRB rating: </span>
-						<span>
-							{game.esrb_rating !== null &&
-								game.esrb_rating?.name}
-							{game.esrb_rating == null && "-"}
-						</span>
-					</div>
+			<Box component="div">
+				<Box component="div">
+					<Typography
+						variant="body1"
+						fontFamily="Tektur, cursive"
+					>
+						ESRB rating:
+						{game.esrb_rating !== null && game.esrb_rating?.name}
+						{game.esrb_rating == null && "-"}
+					</Typography>
+				</Box>
 
-					<div>
-						<span>Metacritic Score: </span>
-						<span>{game.metacritic}</span>
-					</div>
-				</div>
+				<Box component="div">
+					<Typography
+						variant="body1"
+						fontFamily="Tektur, cursive"
+					>
+						Metacritic Score: {game.metacritic}
+					</Typography>
+				</Box>
+			</Box>
 
-				<div>
-					<div>
-						<h3>Platforms: </h3>
-						<div>
-							-{" "}
-							{game.platforms?.map(
-								(item: platformDetailsType) => (
-									<span key={item.platform.id}>
-										{item.platform.name} -{" "}
-									</span>
-								)
-							)}
-						</div>
-					</div>
-				</div>
-				<p>
-					All data and images comes from RAWG.{" "}
-					<a href="https://rawg.io/apidocs">
-						Find more at https://rawg.io/apidocs{" "}
-					</a>
-				</p>
-				<button style={{ background: "gray" }}>
-					<span className="btn__icon icon-plus-squared"></span>
-					<span onClick={() => addToWishlist(game)}>
-						Add to Wishlist
-					</span>
-				</button>
-			</div>
-		</>
+			<Box>
+				<Box>
+					<Typography
+						variant="h6"
+						component="h3"
+						fontFamily="Tektur, cursive"
+					>
+						Platforms:{" "}
+					</Typography>
+					<Typography
+						component="div"
+						fontFamily="Tektur, cursive"
+					>
+						-{" "}
+						{game.platforms?.map((item: platformDetailsType) => (
+							<Typography
+								component="span"
+								fontFamily="Tektur, cursive"
+								key={item.platform.id}
+							>
+								{item.platform.name} -{" "}
+							</Typography>
+						))}
+					</Typography>
+				</Box>
+			</Box>
+			<Button
+				variant="contained"
+				style={{ backgroundColor: "gray" }}
+				onClick={() => addToWishlist(game)}
+			>
+				<Typography
+					variant="body2"
+					component="span"
+					color="text.primary"
+					className="btn__icon icon-plus-squared"
+				></Typography>
+				<Typography
+					variant="body2"
+					component="span"
+					color="text.primary"
+				>
+					Add to Wishlist
+				</Typography>
+			</Button>
+			<Typography
+				component="div"
+				sx={{ textAlign: "center" }}
+				fontFamily="Tektur, cursive"
+			>
+				All data and images comes from RAWG.{" "}
+				<a
+					href="https://rawg.io/apidocs"
+					target="_blank"
+				>
+					Find more at https://rawg.io/apidocs{" "}
+				</a>
+			</Typography>
+		</Box>
 	);
 };
 
