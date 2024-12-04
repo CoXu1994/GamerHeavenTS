@@ -23,13 +23,21 @@ const GameCard = ({ game }: gameCardProps) => {
 				lg: 3,
 			}}
 		>
-			<Card sx={{ width: "100%", minHeight: "100%", bgcolor: "gray" }}>
+			<Card
+				sx={{
+					width: 360,
+					height: 420,
+					bgcolor: "gray",
+				}}
+			>
 				<CardContent>
 					<Typography
 						gutterBottom
-						variant="h5"
+						variant="h6"
 						component="div"
 						color="text.primary"
+						textAlign="center"
+						fontFamily="Tektur, cursive"
 					>
 						{game.name}
 					</Typography>
@@ -49,14 +57,19 @@ const GameCard = ({ game }: gameCardProps) => {
 					<Typography
 						variant="body2"
 						color="text.primary"
+						fontFamily="Tektur, cursive"
+						marginTop="10px"
 					>
 						Metacritic score: {game.metacritic}
 					</Typography>
 
-					<CardActions>
+					<CardActions sx={{ paddingInline: 0 }}>
 						<Button
 							variant="contained"
-							style={{ backgroundColor: "gray" }}
+							sx={{
+								backgroundColor: "gray",
+								fontFamily: "Tektur, cursive",
+							}}
 							onClick={() => addToWishlist(game)}
 						>
 							<Typography
@@ -64,11 +77,13 @@ const GameCard = ({ game }: gameCardProps) => {
 								component="span"
 								color="text.primary"
 								className="btn__icon icon-plus-squared"
+								fontFamily="Tektur, cursive"
 							></Typography>
 							<Typography
 								variant="body2"
 								component="span"
 								color="text.primary"
+								fontFamily="Tektur, cursive"
 							>
 								Add to Wishlist
 							</Typography>
