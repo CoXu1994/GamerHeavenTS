@@ -15,13 +15,25 @@ const Navigation = () => {
 	const [open, toggleDrawer] = useState(false);
 	return (
 		<Box>
-			<AppBar position="fixed">
-				<Toolbar>
+			<AppBar
+				position="fixed"
+				sx={{
+					bgcolor: "black",
+					borderBottom: "3px solid white",
+				}}
+			>
+				<Toolbar
+					sx={{ display: "flex", justifyContent: "space-between" }}
+				>
 					<Link
 						to="/"
 						style={{ textDecoration: "none" }}
 					>
-						<Typography className="nav__title icon-gamepad">
+						<Typography
+							variant="h5"
+							className="icon-gamepad"
+							fontFamily="Tektur, cursive"
+						>
 							GamerHeaven
 						</Typography>
 					</Link>
@@ -29,6 +41,7 @@ const Navigation = () => {
 						edge="start"
 						color="inherit"
 						aria-label="open drawer"
+						sx={{ display: { lg: "none" } }}
 						onClick={() => toggleDrawer(true)}
 					>
 						<MenuIcon />
@@ -45,7 +58,9 @@ const Navigation = () => {
 								style={{ textDecoration: "none" }}
 							>
 								<ListItemButton>
-									<Typography>Go to wish list</Typography>
+									<Typography fontFamily="Tektur, cursive">
+										Go to wish list
+									</Typography>
 								</ListItemButton>
 							</Link>
 							<Link
@@ -53,24 +68,30 @@ const Navigation = () => {
 								style={{ textDecoration: "none" }}
 							>
 								<ListItemButton>
-									<Typography>Go to categories</Typography>
+									<Typography fontFamily="Tektur, cursive">
+										Go to categories
+									</Typography>
 								</ListItemButton>
 							</Link>
 						</Box>
 					</Drawer>
 
-					<Box>
+					<Box sx={{ display: { xs: "none", lg: "flex" }, gap: 5 }}>
 						<Link
 							to="/wishlist"
 							style={{ textDecoration: "none" }}
 						>
-							<Typography>Wish list</Typography>
+							<Typography fontFamily="Tektur, cursive">
+								Wish list
+							</Typography>
 						</Link>
 						<Link
 							to="/categories"
 							style={{ textDecoration: "none" }}
 						>
-							<Typography>Categories</Typography>
+							<Typography fontFamily="Tektur, cursive">
+								Categories
+							</Typography>
 						</Link>
 					</Box>
 				</Toolbar>
