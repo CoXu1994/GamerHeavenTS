@@ -5,19 +5,18 @@ const apiKey = import.meta.env.VITE_API_KEY;
 const apiHost = import.meta.env.VITE_API_HOST;
 
 const useFetchedGames = ({
-	platform = "",
-	genre = "",
-	sortBy = "",
+	platforms = "",
+	genres = "",
+	ordering = "",
 	shouldFetch = true,
 }: {
-	platform?: string;
-	genre?: string;
-	sortBy?: string;
+	platforms?: string;
+	genres?: string;
+	ordering?: string;
 	shouldFetch?: boolean;
 }) => {
 	const [games, setGames] = useState<gamesData | null>(null);
 	const [error, setError] = useState<string | null>(null);
-
 	useEffect(() => {
 		if (!shouldFetch) return;
 
@@ -29,9 +28,9 @@ const useFetchedGames = ({
 					key: apiKey,
 				};
 
-				if (platform) params.platforms = platform;
-				if (genre) params.genres = genre;
-				if (sortBy) params.ordering = sortBy;
+				if (platforms !== "") params.platforms = platforms;
+				if (genres !== "") params.genres = genres;
+				if (ordering !== "") params.ordering = ordering;
 
 				const response = await axios.get("/games", {
 					baseURL: `https://${apiHost}/api`,
@@ -60,7 +59,7 @@ const useFetchedGames = ({
 		return () => {
 			controller.abort();
 		};
-	}, [platform, genre, sortBy, shouldFetch]);
+	}, [platforms, genres, ordering, shouldFetch]);
 
 	return { games, error };
 };
