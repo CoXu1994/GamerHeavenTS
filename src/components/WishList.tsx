@@ -29,12 +29,6 @@ const Wishlist = () => {
 
 	return (
 		<>
-			{wishlist.length > 0 && (
-				<button onClick={() => handleClearWishList()}>
-					Clear Wishlist
-				</button>
-			)}
-
 			{wishlist.length > 0 &&
 				wishlist.map((item: gameDetailsType) => (
 					<div key={item.id}>
@@ -53,6 +47,11 @@ const Wishlist = () => {
 						</button>
 					</div>
 				))}
+			{wishlist.length > 0 && (
+				<button onClick={() => handleClearWishList()}>
+					Clear Wishlist
+				</button>
+			)}
 		</>
 	);
 };
