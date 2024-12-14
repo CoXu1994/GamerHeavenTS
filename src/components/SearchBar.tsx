@@ -1,3 +1,10 @@
+import {
+	Box,
+	FormControl,
+	InputLabel,
+	TextField,
+	Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 const apiKey = import.meta.env.VITE_API_KEY;
@@ -9,7 +16,7 @@ type foundGame = {
 };
 
 const SearchBar = () => {
-	const [searchGame, setSearchGame] = useState("");
+	const [searchQuery, setSearchQuery] = useState("");
 	const [finds, setFinds] = useState([]);
 
 	async function getGames(searchPhrase: string) {
@@ -19,26 +26,62 @@ const SearchBar = () => {
 		return response.json();
 	}
 	const handleSearching = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchGame(event.target.value);
-		getGames(searchGame).then((data) => setFinds(data.results));
+		setSearchQuery(event.target.value);
+		getGames(searchQuery).then((data) => setFinds(data.results));
 	};
 
 	return (
-		<>
-			<label htmlFor="search">Find the game</label>
-			<input
-				type="text"
-				id="search"
-				value={searchGame}
-				onChange={handleSearching}
-			/>
-			{finds.length > 0 &&
-				finds.map((found: foundGame) => (
-					<Link to={`/games/${found.id}`}>
-						<div key={found.id}>{found.name}</div>
-					</Link>
-				))}
-		</>
+		<Box
+			sx={{ width: "350px", marginTop: "80px", justifyContent: "center" }}
+		>
+			<FormControl>
+				<InputLabel
+					htmlFor="searchBar"
+					sx={{
+						color: "white",
+						textAlign: "center",
+						fontFamily: "Tektur, cursive",
+					}}
+				>
+					Find the game
+				</InputLabel>
+				<TextField
+					id="searchBar"
+					value={searchQuery}
+					onInput={handleSearching}
+					variant="outlined"
+					placeholder="Search"
+					size="small"
+					sx={{
+						color: "white",
+						backgroundColor: "white",
+						marginTop: "40px",
+						marginInline: "auto",
+						width: "350px",
+					}}
+				/>
+			</FormControl>
+			<Box sx={{ bgcolor: "gray" }}>
+				{finds.length > 0 &&
+					finds.map((found: foundGame) => (
+						<Link
+							to={`/games/${found.id}`}
+							style={{ textDecoration: "none" }}
+							key={found.id}
+						>
+							<Typography
+								fontFamily="Tektur, cursive"
+								style={{
+									border: "1px solid white",
+									height: "30px",
+								}}
+							>
+								{found.name}
+							</Typography>
+						</Link>
+					))}
+			</Box>
+		</Box>
 	);
 };
 
