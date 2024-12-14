@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import GameList from "./components/GameList";
 import GameDetails from "./components/GameDetails";
 import Layout from "./components/Layout";
 import Filters from "./components/Filters";
 import Wishlist from "./components/WishList";
+import MainPage from "./components/MainPage";
 
 export const router = createBrowserRouter([
 	{
@@ -12,7 +12,7 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				path: "/",
-				element: <GameList />,
+				element: <MainPage />,
 			},
 
 			{

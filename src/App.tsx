@@ -3,11 +3,14 @@ import "./App.css";
 import "./css/fontello.css";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
+import { Container } from "@mui/material";
 
 function App(): JSX.Element {
 	return (
 		<>
-			<RouterProvider router={router} />
+			<Container maxWidth="lg">
+				<RouterProvider router={router} />
+			</Container>
 		</>
 	);
 }

@@ -32,15 +32,28 @@ const SearchBar = () => {
 
 	return (
 		<Box
-			sx={{ width: "350px", marginTop: "80px", justifyContent: "center" }}
+			component="div"
+			sx={{
+				width: "350px",
+				marginTop: "30px",
+				marginInline: "auto",
+			}}
 		>
-			<FormControl>
+			<FormControl
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+				}}
+			>
 				<InputLabel
 					htmlFor="searchBar"
 					sx={{
 						color: "white",
-						textAlign: "center",
 						fontFamily: "Tektur, cursive",
+						textAlign: "center",
+						transform: "none",
+						position: "static",
 					}}
 				>
 					Find the game
@@ -55,7 +68,7 @@ const SearchBar = () => {
 					sx={{
 						color: "white",
 						backgroundColor: "white",
-						marginTop: "40px",
+						marginTop: "10px",
 						marginInline: "auto",
 						width: "350px",
 					}}

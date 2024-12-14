@@ -2,15 +2,23 @@ import GameCard from "./GameCard";
 import useFetchedGames from "../hooks/useFetchedGames";
 import { gameDetailsType, gamesData } from "./GameTypes";
 import { Box, Button, Typography } from "@mui/material";
-import SearchBar from "./SearchBar";
 
 type gamesResponse = {
 	games: gamesData | null;
 	error?: string | null;
 };
 
-const GameList = () => {
-	const { games, error }: gamesResponse = useFetchedGames({});
+type queryType = {
+	platforms?: string | undefined;
+	ordering?: string | undefined;
+};
+
+type propType = {
+	prop?: queryType;
+};
+
+const GameList = ({ prop }: propType) => {
+	const { games, error }: gamesResponse = useFetchedGames(prop || {});
 
 	if (error) {
 		return (
@@ -44,18 +52,10 @@ const GameList = () => {
 
 	return (
 		<>
-			<SearchBar />
 			<Box
 				component="section"
 				sx={{ p: 2 }}
 			>
-				<Typography
-					variant="h5"
-					component="h5"
-					fontFamily="Tektur, cursive"
-				>
-					GameList name
-				</Typography>
 				<Box
 					sx={{
 						display: "flex",
