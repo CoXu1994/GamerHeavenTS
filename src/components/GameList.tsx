@@ -59,7 +59,7 @@ const GameList = ({ prop }: propType) => {
 				<Box
 					sx={{
 						display: "flex",
-						gap: 46,
+						gap: 36,
 						flexGrow: 1,
 						flexShrink: 1,
 						flexBasis: 0,

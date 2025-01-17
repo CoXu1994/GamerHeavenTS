@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { gameDetailsType } from "./GameTypes";
 import { addToWishlist } from "./WishlistOperations";
-import Grid from "@mui/material/Grid2";
 import {
+	Box,
 	Button,
 	Card,
 	CardActions,
@@ -10,24 +10,39 @@ import {
 	CardMedia,
 	Typography,
 } from "@mui/material";
+
+const buttonSX = {
+	backgroundColor: "transparent",
+
+	border: "1px solid white",
+	padding: "10px 16px",
+	borderRadius: "5px",
+	fontSize: "12px",
+	transition: "all 1s",
+	"&: hover": {
+		backgroundColor: "white",
+	},
+	"&: hover > * ": {
+		color: "black",
+	},
+};
+
 type gameCardProps = {
 	game: gameDetailsType;
 };
 const GameCard = ({ game }: gameCardProps) => {
 	return (
-		<Grid
-			sx={{
-				xs: 12,
-				sm: 6,
-				md: 4,
-				lg: 3,
-			}}
+		<Box
+			component="div"
+			marginInline="auto"
 		>
 			<Card
 				sx={{
 					width: 280,
-					height: 400,
-					bgcolor: "gray",
+					height: 360,
+					bgcolor: "rgba(255, 255, 255, 0.125)",
+					border: "1px solid white",
+					borderRadius: "10px",
 				}}
 			>
 				<CardContent>
@@ -35,54 +50,89 @@ const GameCard = ({ game }: gameCardProps) => {
 						gutterBottom
 						variant="h6"
 						component="div"
-						color="text.primary"
+						color="white"
 						textAlign="center"
 						fontFamily="Tektur, cursive"
+						lineHeight="1"
+						marginBottom="10px"
+						height="40px"
 					>
 						{game.name}
 					</Typography>
 
 					<Link
 						to={`/games/${game.id}`}
-						style={{ textDecoration: "none" }}
+						style={{
+							textDecoration: "none",
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							height: 180,
+							width: 246,
+						}}
 					>
 						<CardMedia
 							component="img"
-							image={game.background_image}
+							sx={{
+								borderRadius: "15px",
+								boxShadow: "1px 1px 8px #fff",
+								transition: "all .5s",
+								"&: hover": {
+									boxShadow: "1px 1px 20px #fff",
+									height: "174px",
+									width: "240px",
+								},
+							}}
+							image={
+								game.background_image
+									? game.background_image
+									: "No image"
+							}
 							alt={game.name}
-							height="240"
+							height="180px"
 						/>
 					</Link>
 
 					<Typography
 						variant="body2"
-						color="text.primary"
+						component="div"
+						display="block"
+						color="white"
 						fontFamily="Tektur, cursive"
+						fontSize="20px"
+						textAlign="center"
 						marginTop="10px"
 					>
-						Metacritic score: {game.metacritic}
+						Metacritic score:{" "}
+						<Typography
+							variant="body2"
+							component="span"
+							color="white"
+							fontFamily="Tektur, cursive"
+							fontSize="24px"
+							fontWeight="700"
+						>
+							{game.metacritic}
+						</Typography>
 					</Typography>
 
 					<CardActions sx={{ paddingInline: 0 }}>
 						<Button
 							variant="contained"
-							sx={{
-								backgroundColor: "gray",
-								fontFamily: "Tektur, cursive",
-							}}
+							sx={{ ...buttonSX, marginInline: "auto" }}
 							onClick={() => addToWishlist(game)}
 						>
 							<Typography
 								variant="body2"
 								component="span"
-								color="text.primary"
+								color="white"
 								className="btn__icon icon-plus-squared"
 								fontFamily="Tektur, cursive"
 							></Typography>
 							<Typography
 								variant="body2"
 								component="span"
-								color="text.primary"
+								color="white"
 								fontFamily="Tektur, cursive"
 							>
 								Add to Wishlist
@@ -91,7 +141,7 @@ const GameCard = ({ game }: gameCardProps) => {
 					</CardActions>
 				</CardContent>
 			</Card>
-		</Grid>
+		</Box>
 	);
 };
 
