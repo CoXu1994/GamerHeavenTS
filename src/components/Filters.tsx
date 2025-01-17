@@ -16,6 +16,7 @@ import { SelectChangeEvent } from "@mui/material";
 
 const buttonSX = {
 	backgroundColor: "transparent",
+
 	border: "1px solid white",
 	padding: "10px 16px",
 	borderRadius: "5px",
@@ -109,7 +110,7 @@ const Filters = () => {
 					{CATEGORIES.map((genre: GenreType) => (
 						<Button
 							variant="contained"
-							sx={buttonSX}
+							sx={{ ...buttonSX, width: "140px" }}
 							key={genre.id}
 							onClick={() => handleSelectCategory(genre.slug)}
 						>
@@ -134,7 +135,7 @@ const Filters = () => {
 			>
 				<FormControl>
 					<InputLabel
-						sx={{ color: "white" }}
+						sx={{ color: "white", fontFamily: "Tektur, cursive" }}
 						id="platformLabel"
 						shrink
 					>
@@ -143,6 +144,7 @@ const Filters = () => {
 					<Select
 						variant="standard"
 						sx={{
+							fontFamily: "Tektur, cursive",
 							width: "200px",
 							color: "white",
 							border: "1px solid white",
@@ -158,7 +160,8 @@ const Filters = () => {
 						MenuProps={{
 							PaperProps: {
 								sx: {
-									bgcolor: "transparent",
+									bgcolor: "black",
+									fontFamily: "Tektur, cursive",
 									"& .MuiMenuItem-root": {
 										padding: 2,
 									},
@@ -179,7 +182,7 @@ const Filters = () => {
 				</FormControl>
 				<FormControl>
 					<InputLabel
-						sx={{ color: "white" }}
+						sx={{ color: "white", fontFamily: "Tektur, cursive" }}
 						id="sortByLabel"
 						shrink
 					>
@@ -188,6 +191,7 @@ const Filters = () => {
 					<Select
 						variant="standard"
 						sx={{
+							fontFamily: "Tektur, cursive",
 							width: "200px",
 							color: "white",
 							border: "1px solid white",
@@ -200,6 +204,17 @@ const Filters = () => {
 						value={order}
 						displayEmpty
 						onChange={handleSelectOrder}
+						MenuProps={{
+							PaperProps: {
+								sx: {
+									bgcolor: "black",
+									fontFamily: "Tektur, cursive",
+									"& .MuiMenuItem-root": {
+										padding: 2,
+									},
+								},
+							},
+						}}
 					>
 						<MenuItem value=""> No order </MenuItem>
 						{SORT_BY.map((sortOption) => (
@@ -213,21 +228,67 @@ const Filters = () => {
 					</Select>
 				</FormControl>
 			</Box>
-			<Box>
-				{!games ? (
-					<Typography>Brak wyników do wyświetlenia.</Typography>
-				) : (
-					games.results.map((game: gameDetailsType) => (
-						<GameCard
-							key={game.id}
-							game={game}
-						/>
-					))
-				)}
-			</Box>
-			<Box>
-				<Button>Previous</Button>
-				<Button>Next</Button>
+			<Box
+				component="div"
+				marginTop="30px"
+			>
+				<Box
+					display="flex"
+					flexWrap="wrap"
+					gap="10px"
+				>
+					{!games ? (
+						<Typography
+							fontFamily="Tektur, cursive"
+							textAlign="center"
+							fontSize="38px"
+							marginTop="40px"
+							marginInline="auto"
+						>
+							No results - choose queries to find games
+						</Typography>
+					) : (
+						games.results.map((game: gameDetailsType) => (
+							<GameCard
+								key={game.id}
+								game={game}
+							/>
+						))
+					)}
+				</Box>
+				<Box
+					component="div"
+					display={!games ? "none" : "flex"}
+					justifyContent="center"
+					alignItems="center"
+					gap="20px"
+					marginTop="20px"
+					marginInline="auto"
+				>
+					<Button sx={buttonSX}>
+						<Typography
+							variant="body2"
+							component="span"
+							fontFamily="Tektur, cursive"
+							color="white"
+						>
+							Previous
+						</Typography>
+					</Button>
+					<Button
+						variant="contained"
+						sx={{ ...buttonSX, width: "105px" }}
+					>
+						<Typography
+							variant="body2"
+							component="span"
+							fontFamily="Tektur, cursive"
+							color="white"
+						>
+							Next
+						</Typography>
+					</Button>
+				</Box>
 			</Box>
 		</Box>
 	);

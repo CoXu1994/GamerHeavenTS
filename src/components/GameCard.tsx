@@ -25,8 +25,8 @@ const GameCard = ({ game }: gameCardProps) => {
 		>
 			<Card
 				sx={{
-					width: 360,
-					height: 420,
+					width: 280,
+					height: 400,
 					bgcolor: "gray",
 				}}
 			>

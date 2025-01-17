@@ -60,11 +60,6 @@ export const CATEGORIES = [
 		"slug": "racing",
 	},
 	{
-		"id": 59,
-		"name": "Massively Multiplayer",
-		"slug": "massively-multiplayer",
-	},
-	{
 		"id": 15,
 		"name": "Sports",
 		"slug": "sports",
@@ -93,6 +88,11 @@ export const CATEGORIES = [
 		"id": 17,
 		"name": "Card",
 		"slug": "card",
+	},
+	{
+		"id": 59,
+		"name": "Massively Multiplayer",
+		"slug": "massively-multiplayer",
 	},
 ];
 
