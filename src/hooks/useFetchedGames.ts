@@ -26,6 +26,7 @@ const useFetchedGames = ({
 			try {
 				const params: Record<string, string> = {
 					key: apiKey,
+					page_size: "30",
 				};
 
 				if (platforms !== "") params.platforms = platforms;

@@ -15,8 +15,9 @@ import {
 import { SelectChangeEvent } from "@mui/material";
 
 const buttonSX = {
-	backgroundColor: "transparent",
-
+	backgroundColor: "rgba(255, 255, 255, 0.125)",
+	fontFamily: "Tektur, cursive",
+	width: "105px",
 	border: "1px solid white",
 	padding: "10px 16px",
 	borderRadius: "5px",
@@ -52,7 +53,7 @@ const Filters = () => {
 	const [params, setParams] = useState<paramsType | null>(null);
 	const [platform, setPlatform] = useState<string>("");
 	const [order, setOrder] = useState<string>("");
-	// Warunkowe użycie hooka — domyślnie shouldFetch włącza się tylko, gdy params istnieją
+
 	const { games, error }: gamesResponse = useFetchedGames({
 		...params,
 		shouldFetch: !!params,
@@ -87,10 +88,11 @@ const Filters = () => {
 
 	return (
 		<Box
-			component="section"
-			sx={{ p: 2 }}
-			marginInline="auto"
+			component="div"
+			display="block"
+			sx={{ p: 2, marginInline: "auto", width: "100%" }}
 			maxWidth="1020px"
+			minWidth="320px"
 		>
 			<Box>
 				<Typography
@@ -236,6 +238,7 @@ const Filters = () => {
 					display="flex"
 					flexWrap="wrap"
 					gap="10px"
+					marginInline="auto"
 				>
 					{!games ? (
 						<Typography
@@ -265,28 +268,17 @@ const Filters = () => {
 					marginTop="20px"
 					marginInline="auto"
 				>
-					<Button sx={buttonSX}>
-						<Typography
-							variant="body2"
-							component="span"
-							fontFamily="Tektur, cursive"
-							color="white"
-						>
-							Previous
-						</Typography>
+					<Button
+						variant="contained"
+						sx={buttonSX}
+					>
+						Previous
 					</Button>
 					<Button
 						variant="contained"
-						sx={{ ...buttonSX, width: "105px" }}
+						sx={buttonSX}
 					>
-						<Typography
-							variant="body2"
-							component="span"
-							fontFamily="Tektur, cursive"
-							color="white"
-						>
-							Next
-						</Typography>
+						Next
 					</Button>
 				</Box>
 			</Box>

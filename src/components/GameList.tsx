@@ -17,6 +17,24 @@ type propType = {
 	prop?: queryType;
 };
 
+const buttonSX = {
+	backgroundColor: "rgba(255, 255, 255, 0.125)",
+	fontFamily: "Tektur, cursive",
+	width: "105px",
+	border: "1px solid white",
+	padding: "10px 16px",
+	borderRadius: "5px",
+	fontSize: "12px",
+	transition: "all 1s",
+	"&: hover": {
+		backgroundColor: "white",
+		color: "black",
+	},
+	"&: hover > * ": {
+		color: "black",
+	},
+};
+
 const GameList = ({ prop }: propType) => {
 	const { games, error }: gamesResponse = useFetchedGames(prop || {});
 
@@ -59,7 +77,7 @@ const GameList = ({ prop }: propType) => {
 				<Box
 					sx={{
 						display: "flex",
-						gap: 36,
+						gap: 3,
 						flexGrow: 1,
 						flexShrink: 1,
 						flexBasis: 0,
@@ -67,6 +85,21 @@ const GameList = ({ prop }: propType) => {
 						overflow: "auto",
 						justifyContent: "flex-start",
 						alignItems: "center",
+						"&::-webkit-scrollbar": {
+							height: "15px",
+						},
+						"&::-webkit-scrollbar-track": {
+							background: "rgba(255, 255, 255, 0.125)",
+							borderRadius: "5px",
+						},
+						"&::-webkit-scrollbar-thumb": {
+							background: "white",
+							border: "1px solid white",
+							borderRadius: "5px",
+						},
+						"&::-webkit-scrollbar-thumb:hover": {
+							background: "rgba(255, 255, 255, 0.125)",
+						},
 					}}
 				>
 					{games?.results.map((game: gameDetailsType) => (
@@ -78,30 +111,22 @@ const GameList = ({ prop }: propType) => {
 				</Box>
 				<Box
 					sx={{
-						marginTop: 1,
+						marginTop: 2,
 						display: "flex",
-						gap: 0.5,
+						gap: 3,
 						justifyContent: "center",
 						alignItems: "center",
 					}}
 				>
 					<Button
 						variant="contained"
-						sx={{
-							backgroundColor: "gray",
-							fontFamily: "Tektur, cursive",
-							width: 100,
-						}}
+						sx={buttonSX}
 					>
 						Previous
 					</Button>
 					<Button
 						variant="contained"
-						sx={{
-							backgroundColor: "gray",
-							fontFamily: "Tektur, cursive",
-							width: 100,
-						}}
+						sx={buttonSX}
 					>
 						Next
 					</Button>
