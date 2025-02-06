@@ -2,8 +2,14 @@ import { Box, Typography } from "@mui/material";
 import SearchBar from "./SearchBar";
 import GameList from "./GameList";
 import { gameListsQueries } from "./GameListsConstants";
+import { useState } from "react";
 
 const MainPage = () => {
+	const [hasResults, setHasResults] = useState(false);
+
+	const handleResultsFound = (resultsExist: boolean) => {
+		setHasResults(resultsExist);
+	};
 	return (
 		<Box sx={{ marginInline: "auto" }}>
 			<Box sx={{ textAlign: "center" }}>
@@ -17,7 +23,20 @@ const MainPage = () => {
 					</a>
 				</Typography>
 			</Box>
-			<SearchBar />
+			<SearchBar onResultsFound={handleResultsFound} />
+			{hasResults && (
+				<div
+					style={{
+						position: "fixed",
+						top: 0,
+						left: 0,
+						width: "100%",
+						height: "100%",
+						backgroundColor: "rgba(0, 0, 0, 0.9)", // Przyciemnienie tła
+						zIndex: 1000, // Overlay nad innymi elementami
+					}}
+				></div>
+			)}
 			<Box>
 				{gameListsQueries.map((gameList) => (
 					<Box>
