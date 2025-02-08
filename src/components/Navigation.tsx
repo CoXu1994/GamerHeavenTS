@@ -20,6 +20,7 @@ const Navigation = () => {
 				sx={{
 					bgcolor: "black",
 					borderBottom: "3px solid white",
+					zIndex: 3001,
 				}}
 			>
 				<Toolbar

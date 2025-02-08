@@ -6,9 +6,13 @@ import { useState } from "react";
 
 const MainPage = () => {
 	const [hasResults, setHasResults] = useState(false);
+	const [isSearchFocused, setIsSearchFocused] = useState(false);
 
 	const handleResultsFound = (resultsExist: boolean) => {
 		setHasResults(resultsExist);
+	};
+	const handleFocusChange = (isFocused: boolean) => {
+		setIsSearchFocused(isFocused);
 	};
 	return (
 		<Box sx={{ marginInline: "auto" }}>
@@ -23,8 +27,12 @@ const MainPage = () => {
 					</a>
 				</Typography>
 			</Box>
-			<SearchBar onResultsFound={handleResultsFound} />
-			{hasResults && (
+			<SearchBar
+				onResultsFound={handleResultsFound}
+				onFocusChange={handleFocusChange}
+				isSearchFocused={isSearchFocused}
+			/>
+			{hasResults && isSearchFocused && (
 				<div
 					style={{
 						position: "fixed",

@@ -18,9 +18,15 @@ type foundGame = {
 
 type SearchBarProps = {
 	onResultsFound: (hasResults: boolean) => void;
+	onFocusChange: (isFocused: boolean) => void;
+	isSearchFocused: boolean;
 };
 
-const SearchBar = ({ onResultsFound }: SearchBarProps) => {
+const SearchBar = ({
+	onResultsFound,
+	onFocusChange,
+	isSearchFocused,
+}: SearchBarProps) => {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [finds, setFinds] = useState<foundGame[]>([]);
 
@@ -88,6 +94,8 @@ const SearchBar = ({ onResultsFound }: SearchBarProps) => {
 					placeholder="Search..."
 					size="small"
 					autoComplete="off"
+					onFocus={() => onFocusChange(true)}
+					onBlur={() => setTimeout(() => onFocusChange(false), 100)}
 					sx={{
 						backgroundColor: "rgba(255, 255, 255, 0.125)",
 						marginTop: "10px",
@@ -137,9 +145,23 @@ const SearchBar = ({ onResultsFound }: SearchBarProps) => {
 					width: 380,
 					maxHeight: 400,
 					overflow: "auto",
+					"&::-webkit-scrollbar": {
+						height: "15px",
+					},
+					"&::-webkit-scrollbar-track": {
+						background: "rgba(255, 255, 255, 0.125)",
+					},
+					"&::-webkit-scrollbar-thumb": {
+						background: "white",
+						border: "1px solid white",
+					},
+					"&::-webkit-scrollbar-thumb:hover": {
+						background: "rgba(255, 255, 255, 0.125)",
+					},
 				}}
 			>
-				{!!finds.length &&
+				{isSearchFocused &&
+					!!finds.length &&
 					searchQuery.trim() !== "" &&
 					finds.map((found: foundGame) => (
 						<Link
