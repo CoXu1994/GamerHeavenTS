@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CATEGORIES, PLATFORMS, SORT_BY } from "./FiltersConstants";
 import GameCard from "./GameCard";
 import { gameDetailsType, gamesData } from "./GameTypes";
@@ -50,14 +50,30 @@ type gamesResponse = {
 };
 
 const Filters = () => {
+	const [pageNumber, setPageNumber] = useState<number>(1);
 	const [params, setParams] = useState<paramsType | null>(null);
 	const [platform, setPlatform] = useState<string>("");
 	const [order, setOrder] = useState<string>("");
+	const [pageUrl, setPageUrl] = useState<string | null>(null);
 
 	const { games, error }: gamesResponse = useFetchedGames({
 		...params,
+		pageUrl,
 		shouldFetch: !!params,
 	});
+
+	useEffect(() => {
+		if (pageUrl) {
+			const getPageNumberFromUrl = () => {
+				const urlParams = new URLSearchParams(pageUrl);
+				const page = urlParams.get("page");
+				return page ? parseInt(page, 10) : 1;
+			};
+
+			setPageNumber(getPageNumberFromUrl());
+			window.scrollTo({ top: 380, behavior: "smooth" });
+		}
+	}, [pageUrl]);
 
 	const handleSelectOrder = (event: SelectChangeEvent<string>) => {
 		setOrder(event.target.value);
@@ -80,6 +96,18 @@ const Filters = () => {
 			...prevParams,
 			genres: selectedGenre,
 		}));
+	};
+
+	const handleNext = () => {
+		if (games?.next) {
+			setPageUrl(games.next);
+		}
+	};
+
+	const handlePrevious = () => {
+		if (games?.previous) {
+			setPageUrl(games.previous);
+		}
 	};
 
 	if (error) {
@@ -259,28 +287,40 @@ const Filters = () => {
 						))
 					)}
 				</Box>
-				<Box
-					component="div"
-					display={!games ? "none" : "flex"}
-					justifyContent="center"
-					alignItems="center"
-					gap="20px"
-					marginTop="20px"
-					marginInline="auto"
-				>
-					<Button
-						variant="contained"
-						sx={buttonSX}
+				{games && (
+					<Box
+						component="div"
+						display="flex"
+						justifyContent="center"
+						alignItems="center"
+						gap="20px"
+						marginTop="20px"
+						marginInline="auto"
 					>
-						Previous
-					</Button>
-					<Button
-						variant="contained"
-						sx={buttonSX}
-					>
-						Next
-					</Button>
-				</Box>
+						<Button
+							variant="contained"
+							sx={buttonSX}
+							onClick={handlePrevious}
+							disabled={!games.previous}
+						>
+							Previous
+						</Button>
+						<Typography
+							component="span"
+							fontFamily="Tektur, cursive"
+						>
+							{pageNumber}
+						</Typography>
+						<Button
+							variant="contained"
+							sx={buttonSX}
+							onClick={handleNext}
+							disabled={!games.next}
+						>
+							Next
+						</Button>
+					</Box>
+				)}
 			</Box>
 		</Box>
 	);

@@ -9,11 +9,13 @@ const useFetchedGames = ({
 	genres = "",
 	ordering = "",
 	shouldFetch = true,
+	pageUrl = "",
 }: {
 	platforms?: string;
 	genres?: string;
 	ordering?: string;
 	shouldFetch?: boolean;
+	pageUrl?: string | null;
 }) => {
 	const [games, setGames] = useState<gamesData | null>(null);
 	const [error, setError] = useState<string | null>(null);
@@ -33,7 +35,9 @@ const useFetchedGames = ({
 				if (genres !== "") params.genres = genres;
 				if (ordering !== "") params.ordering = ordering;
 
-				const response = await axios.get("/games", {
+				const url = pageUrl || `/games`;
+
+				const response = await axios.get(url, {
 					baseURL: `https://${apiHost}/api`,
 					signal: controller.signal,
 					params,
@@ -57,10 +61,11 @@ const useFetchedGames = ({
 		};
 
 		fetchGames();
+
 		return () => {
 			controller.abort();
 		};
-	}, [platforms, genres, ordering, shouldFetch]);
+	}, [platforms, genres, ordering, shouldFetch, pageUrl]);
 
 	return { games, error };
 };

@@ -14,6 +14,8 @@ type esrbTyping = {
 
 export type gamesData = {
 	results: gameDetailsType[];
+	next: string | null;
+	previous: string | null;
 };
 
 export type platformDetailsType = {

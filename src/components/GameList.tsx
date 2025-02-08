@@ -2,6 +2,7 @@ import GameCard from "./GameCard";
 import useFetchedGames from "../hooks/useFetchedGames";
 import { gameDetailsType, gamesData } from "./GameTypes";
 import { Box, Button, Typography } from "@mui/material";
+import { useState, useEffect, useRef } from "react";
 
 type gamesResponse = {
 	games: gamesData | null;
@@ -11,6 +12,8 @@ type gamesResponse = {
 type queryType = {
 	platforms?: string | undefined;
 	ordering?: string | undefined;
+	pageUrl?: string | null;
+	shouldFetch?: boolean;
 };
 
 type propType = {
@@ -36,8 +39,46 @@ const buttonSX = {
 };
 
 const GameList = ({ prop }: propType) => {
-	const { games, error }: gamesResponse = useFetchedGames(prop || {});
+	const [pageNumber, setPageNumber] = useState<number>(1);
+	const [pageUrl, setPageUrl] = useState<string | null>(null);
+	const { games, error }: gamesResponse = useFetchedGames({
+		...prop,
+		pageUrl,
+	});
 
+	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
+	useEffect(() => {
+		if (pageUrl) {
+			const getPageNumberFromUrl = () => {
+				const urlParams = new URLSearchParams(pageUrl);
+				const page = urlParams.get("page");
+				return page ? parseInt(page, 10) : 1;
+			};
+
+			setPageNumber(getPageNumberFromUrl());
+		}
+
+		if (scrollContainerRef.current) {
+			scrollContainerRef.current.scrollTo({
+				left: 0,
+				behavior: "smooth",
+			});
+		}
+	}, [pageUrl]);
+
+	const handleNext = () => {
+		if (games?.next) {
+			setPageUrl(games.next);
+		}
+	};
+
+	const handlePrevious = () => {
+		if (games?.previous) {
+			setPageUrl(games.previous);
+		}
+	};
+	console.log(games);
 	if (error) {
 		return (
 			<Typography
@@ -75,6 +116,7 @@ const GameList = ({ prop }: propType) => {
 				sx={{ p: 2 }}
 			>
 				<Box
+					ref={scrollContainerRef}
 					sx={{
 						display: "flex",
 						gap: 3,
@@ -121,12 +163,22 @@ const GameList = ({ prop }: propType) => {
 					<Button
 						variant="contained"
 						sx={buttonSX}
+						onClick={handlePrevious}
+						disabled={!games.previous}
 					>
 						Previous
 					</Button>
+					<Typography
+						component="span"
+						fontFamily="Tektur, cursive"
+					>
+						{pageNumber}
+					</Typography>
 					<Button
 						variant="contained"
 						sx={buttonSX}
+						onClick={handleNext}
+						disabled={!games.next}
 					>
 						Next
 					</Button>
