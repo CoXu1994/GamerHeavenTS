@@ -79,7 +79,7 @@ Run the Application: After installing the dependencies, you can start the applic
 
 ## Demo
 
-TBA
+https://gamerheavents.netlify.app
 
 ## Previous version Demo
 
