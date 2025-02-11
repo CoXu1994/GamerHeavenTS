@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { gameDetailsType } from "./GameTypes";
-import { addToWishlist } from "./WishlistOperations";
+import { addToWishlist } from "./wishListOperations";
 import {
 	Box,
 	Button,

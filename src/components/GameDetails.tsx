@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import useFetchedGame from "../hooks/useFetchedGame";
 import { gameDetailsType, platformDetailsType } from "./GameTypes";
-import { addToWishlist } from "./WishlistOperations";
+import { addToWishlist } from "./wishListOperations";
 import { Box, Typography, Button } from "@mui/material";
 
 const buttonSX = {

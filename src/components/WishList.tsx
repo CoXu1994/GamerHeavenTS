@@ -3,7 +3,7 @@ import {
 	clearWishlist,
 	getWishlist,
 	removeFromWishlist,
-} from "./WishlistOperations";
+} from "./wishListOperations";
 import { gameDetailsType } from "./GameTypes";
 import { Box, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
