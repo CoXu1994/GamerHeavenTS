@@ -20,7 +20,7 @@ const Navigation = () => {
 				sx={{
 					bgcolor: "black",
 					borderBottom: "3px solid white",
-					zIndex: 3001,
+					zIndex: 1000,
 				}}
 			>
 				<Toolbar
@@ -52,14 +52,29 @@ const Navigation = () => {
 						variant="temporary"
 						open={open}
 						onClose={() => toggleDrawer(false)}
+						sx={{ display: { sx: "block", lg: "none" } }}
 					>
-						<Box>
+						<Box
+							sx={{
+								bgcolor: "rgb(0, 0, 0)",
+								border: "1px solid white",
+							}}
+						>
 							<Link
 								to="/wishlist"
 								style={{ textDecoration: "none" }}
 							>
-								<ListItemButton>
-									<Typography fontFamily="Tektur, cursive">
+								<ListItemButton
+									sx={{
+										borderBottom: "1px solid white",
+										height: 64,
+										width: "100%",
+									}}
+								>
+									<Typography
+										fontFamily="Tektur, cursive"
+										color="white"
+									>
 										Go to wish list
 									</Typography>
 								</ListItemButton>
@@ -68,8 +83,16 @@ const Navigation = () => {
 								to="/categories"
 								style={{ textDecoration: "none" }}
 							>
-								<ListItemButton>
-									<Typography fontFamily="Tektur, cursive">
+								<ListItemButton
+									sx={{
+										height: 64,
+										width: "100%",
+									}}
+								>
+									<Typography
+										fontFamily="Tektur, cursive"
+										color="white"
+									>
 										Go to categories
 									</Typography>
 								</ListItemButton>
