@@ -13,23 +13,15 @@ import {
 	Typography,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material";
-
-const buttonSX = {
-	backgroundColor: "rgba(255, 255, 255, 0.125)",
-	fontFamily: "Tektur, cursive",
-	width: "105px",
-	border: "1px solid white",
-	padding: "10px 16px",
-	borderRadius: "5px",
-	fontSize: "12px",
-	transition: "all 1s",
-	"&: hover": {
-		backgroundColor: "white",
-	},
-	"&: hover > * ": {
-		color: "black",
-	},
-};
+import {
+	buttonSX,
+	categoryButtonsBoxSX,
+	containerSX,
+	primaryTextSX,
+	selectBoxSX,
+	selectOptionsSX,
+	selectSX,
+} from "./styles";
 
 type FilterType<T = unknown> = {
 	id: number;
@@ -117,30 +109,29 @@ const Filters = () => {
 	return (
 		<Box
 			component="div"
-			display="block"
-			sx={{ p: 2, marginInline: "auto", width: "100%" }}
-			maxWidth="1020px"
-			minWidth="320px"
+			sx={containerSX}
 		>
-			<Box>
+			<Box
+				component="div"
+				display="block"
+				marginInline="auto"
+			>
 				<Typography
 					fontFamily="Tektur, cursive"
 					textAlign="center"
 					fontSize="38px"
-					marginBottom="10px"
+					display="block"
 				>
 					Choose genre:
 				</Typography>
 				<Box
-					display="flex"
-					flexWrap="wrap"
-					justifyContent="center"
-					gap="2px"
+					component="div"
+					sx={categoryButtonsBoxSX}
 				>
 					{CATEGORIES.map((genre: GenreType) => (
 						<Button
 							variant="contained"
-							sx={{ ...buttonSX, width: "140px" }}
+							sx={{ ...buttonSX, width: "140px", height: 61 }}
 							key={genre.id}
 							onClick={() => handleSelectCategory(genre.slug)}
 						>
@@ -158,14 +149,11 @@ const Filters = () => {
 			</Box>
 			<Box
 				component="div"
-				marginTop="20px"
-				display="flex"
-				gap="200px"
-				justifyContent="center"
+				sx={selectBoxSX}
 			>
 				<FormControl>
 					<InputLabel
-						sx={{ color: "white", fontFamily: "Tektur, cursive" }}
+						sx={primaryTextSX}
 						id="platformLabel"
 						shrink
 					>
@@ -173,31 +161,14 @@ const Filters = () => {
 					</InputLabel>
 					<Select
 						variant="standard"
-						sx={{
-							fontFamily: "Tektur, cursive",
-							width: "200px",
-							color: "white",
-							border: "1px solid white",
-							padding: "10px 16px",
-							borderRadius: "5px",
-						}}
+						sx={selectSX}
 						labelId="platformLabel"
 						id="platform"
 						label="Platform"
 						value={platform}
 						displayEmpty
 						onChange={handleSelectPlatform}
-						MenuProps={{
-							PaperProps: {
-								sx: {
-									bgcolor: "black",
-									fontFamily: "Tektur, cursive",
-									"& .MuiMenuItem-root": {
-										padding: 2,
-									},
-								},
-							},
-						}}
+						MenuProps={selectOptionsSX}
 					>
 						<MenuItem value=""> All </MenuItem>
 						{PLATFORMS.map((platform: PlatformType) => (
@@ -212,7 +183,7 @@ const Filters = () => {
 				</FormControl>
 				<FormControl>
 					<InputLabel
-						sx={{ color: "white", fontFamily: "Tektur, cursive" }}
+						sx={primaryTextSX}
 						id="sortByLabel"
 						shrink
 					>
@@ -220,31 +191,14 @@ const Filters = () => {
 					</InputLabel>
 					<Select
 						variant="standard"
-						sx={{
-							fontFamily: "Tektur, cursive",
-							width: "200px",
-							color: "white",
-							border: "1px solid white",
-							padding: "10px 16px",
-							borderRadius: "5px",
-						}}
+						sx={selectSX}
 						labelId="sortByLabel"
 						id="sortBy"
 						label="SortBy"
 						value={order}
 						displayEmpty
 						onChange={handleSelectOrder}
-						MenuProps={{
-							PaperProps: {
-								sx: {
-									bgcolor: "black",
-									fontFamily: "Tektur, cursive",
-									"& .MuiMenuItem-root": {
-										padding: 2,
-									},
-								},
-							},
-						}}
+						MenuProps={selectOptionsSX}
 					>
 						<MenuItem value=""> No order </MenuItem>
 						{SORT_BY.map((sortOption) => (

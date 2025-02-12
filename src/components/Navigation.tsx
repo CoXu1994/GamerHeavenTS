@@ -10,6 +10,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { primaryTextSX } from "./styles";
 
 const Navigation = () => {
 	const [open, toggleDrawer] = useState(false);
@@ -42,7 +43,7 @@ const Navigation = () => {
 						edge="start"
 						color="inherit"
 						aria-label="open drawer"
-						sx={{ display: { lg: "none" } }}
+						sx={{ display: { md: "none" } }}
 						onClick={() => toggleDrawer(true)}
 					>
 						<MenuIcon />
@@ -52,7 +53,6 @@ const Navigation = () => {
 						variant="temporary"
 						open={open}
 						onClose={() => toggleDrawer(false)}
-						sx={{ display: { sx: "block", lg: "none" } }}
 					>
 						<Box
 							sx={{
@@ -100,12 +100,12 @@ const Navigation = () => {
 						</Box>
 					</Drawer>
 
-					<Box sx={{ display: { xs: "none", lg: "flex" }, gap: 5 }}>
+					<Box sx={{ display: { xs: "none", md: "flex" }, gap: 5 }}>
 						<Link
 							to="/wishlist"
 							style={{ textDecoration: "none" }}
 						>
-							<Typography fontFamily="Tektur, cursive">
+							<Typography sx={primaryTextSX}>
 								Wish list
 							</Typography>
 						</Link>
@@ -113,7 +113,7 @@ const Navigation = () => {
 							to="/categories"
 							style={{ textDecoration: "none" }}
 						>
-							<Typography fontFamily="Tektur, cursive">
+							<Typography sx={primaryTextSX}>
 								Categories
 							</Typography>
 						</Link>
