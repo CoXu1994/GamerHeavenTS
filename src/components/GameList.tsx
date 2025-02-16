@@ -78,7 +78,7 @@ const GameList = ({ prop }: propType) => {
 			setPageUrl(games.previous);
 		}
 	};
-	console.log(games);
+
 	if (error) {
 		return (
 			<Typography
@@ -113,7 +113,7 @@ const GameList = ({ prop }: propType) => {
 		<>
 			<Box
 				component="section"
-				sx={{ p: 2 }}
+				sx={{ paddingInline: "20px" }}
 			>
 				<Box
 					ref={scrollContainerRef}
@@ -153,7 +153,7 @@ const GameList = ({ prop }: propType) => {
 				</Box>
 				<Box
 					sx={{
-						marginTop: 2,
+						margin: "20px 0",
 						display: "flex",
 						gap: 3,
 						justifyContent: "center",

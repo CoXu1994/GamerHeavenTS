@@ -7,23 +7,7 @@ import {
 import { gameDetailsType } from "./GameTypes";
 import { Box, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
-
-const buttonSX = {
-	backgroundColor: "rgba(255, 255, 255, 0.125)",
-	fontFamily: "Tektur, cursive",
-	border: "1px solid white",
-	padding: "10px 16px",
-	borderRadius: "5px",
-	fontSize: "12px",
-	transition: "all 1s",
-	"&: hover": {
-		backgroundColor: "white",
-		color: "black",
-	},
-	"&: hover > * ": {
-		color: "black",
-	},
-};
+import { buttonSX, containerSX } from "./styles";
 
 const Wishlist = () => {
 	const [wishlist, setWishList] = useState<gameDetailsType[]>([]);
@@ -47,11 +31,7 @@ const Wishlist = () => {
 	};
 
 	return (
-		<Box
-			component="section"
-			marginInline="auto"
-			marginTop="100px"
-		>
+		<Box sx={containerSX}>
 			<Typography
 				component="span"
 				display="block"
@@ -85,7 +65,13 @@ const Wishlist = () => {
 								{item.name}
 							</Typography>
 						</Link>
-						<Button sx={buttonSX}>
+						<Button
+							variant="contained"
+							sx={{
+								...buttonSX,
+								width: { xs: "100px", sm: "220px" },
+							}}
+						>
 							<Typography
 								className="btn__icon icon-cancel-squared"
 								paddingRight="4px"

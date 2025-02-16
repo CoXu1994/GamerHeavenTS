@@ -7,6 +7,12 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {
+	searchInputSX,
+	searchLabelSX,
+	searchResultsSX,
+	sx_container__searchbar,
+} from "./styles";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiHost = import.meta.env.VITE_API_HOST;
@@ -36,20 +42,21 @@ const SearchBar = ({
 		);
 		return response.json();
 	}
+
 	const handleSearching = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchQuery(event.target.value);
 	};
 
 	useEffect(() => {
 		if (searchQuery.trim() === "") {
-			setFinds([]); // Gwarantujemy, że lista wyników jest pusta, jeśli query jest puste
+			setFinds([]);
 			onResultsFound(false);
 			return;
 		}
 
 		getGames(searchQuery).then((data) => {
 			if (searchQuery.trim() === "") {
-				setFinds([]); // Zapewniamy, że nie przypisujemy wyników, jeśli searchQuery się zmieniło
+				setFinds([]);
 				onResultsFound(false);
 			} else {
 				setFinds(data.results);
@@ -57,14 +64,11 @@ const SearchBar = ({
 			}
 		});
 	}, [searchQuery, onResultsFound]);
+
 	return (
 		<Box
 			component="div"
-			sx={{
-				width: "350px",
-				marginTop: "30px",
-				marginInline: "auto",
-			}}
+			sx={sx_container__searchbar}
 		>
 			<FormControl
 				sx={{
@@ -75,14 +79,7 @@ const SearchBar = ({
 			>
 				<InputLabel
 					htmlFor="searchBar"
-					sx={{
-						color: "white",
-						fontFamily: "Tektur, cursive",
-						textAlign: "center",
-						transform: "none",
-						position: "static",
-						fontSize: "24px",
-					}}
+					sx={searchLabelSX}
 				>
 					Find the game
 				</InputLabel>
@@ -96,70 +93,10 @@ const SearchBar = ({
 					autoComplete="off"
 					onFocus={() => onFocusChange(true)}
 					onBlur={() => setTimeout(() => onFocusChange(false), 100)}
-					sx={{
-						backgroundColor: "rgba(255, 255, 255, 0.125)",
-						marginTop: "10px",
-						marginInline: "auto",
-						width: "380px",
-						border: "2px solid white",
-						zIndex: 1100,
-						position: "relative",
-
-						input: {
-							fontFamily: "Tektur, cursive",
-							color: "white",
-							"::placeholder": {
-								color: "white",
-							},
-							"&:focus": {
-								color: "black",
-							},
-						},
-
-						"& .MuiOutlinedInput-notchedOutline": {
-							border: "none", // Usunięcie ramki
-						},
-						"& .MuiOutlinedInput-root": {
-							transition: "all 0.3s ease-in-out",
-
-							"&:hover .MuiOutlinedInput-notchedOutline": {
-								border: "none", // Usunięcie ramki po najechaniu
-								transition: "all 0.3s ease-in-out",
-							},
-							"&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-								border: "none", // Usunięcie ramki po focusie
-							},
-							"&.Mui-focused": {
-								boxShadow: "none", // Usunięcie efektu podświetlenia po focusie
-								bgcolor: "white",
-							},
-						},
-					}}
+					sx={searchInputSX}
 				/>
 			</FormControl>
-			<Box
-				sx={{
-					bgcolor: "rgb(0, 0, 0)",
-					zIndex: 1100,
-					position: "absolute",
-					width: 380,
-					maxHeight: 400,
-					overflow: "auto",
-					"&::-webkit-scrollbar": {
-						height: "15px",
-					},
-					"&::-webkit-scrollbar-track": {
-						background: "rgba(255, 255, 255, 0.125)",
-					},
-					"&::-webkit-scrollbar-thumb": {
-						background: "white",
-						border: "1px solid white",
-					},
-					"&::-webkit-scrollbar-thumb:hover": {
-						background: "rgba(255, 255, 255, 0.125)",
-					},
-				}}
-			>
+			<Box sx={searchResultsSX}>
 				{isSearchFocused &&
 					!!finds.length &&
 					searchQuery.trim() !== "" &&

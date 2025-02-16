@@ -3,6 +3,12 @@ import SearchBar from "./SearchBar";
 import GameList from "./GameList";
 import { gameListsQueries } from "./GameListsConstants";
 import { useState } from "react";
+import {
+	categoryTitlesSX,
+	containerSX,
+	overlaySX,
+	primaryTextSX,
+} from "./styles";
 
 const MainPage = () => {
 	const [hasResults, setHasResults] = useState(false);
@@ -15,12 +21,9 @@ const MainPage = () => {
 		setIsSearchFocused(isFocused);
 	};
 	return (
-		<Box sx={{ marginInline: "auto" }}>
-			<Box sx={{ textAlign: "center" }}>
-				<Typography
-					fontFamily="Tektur, cursive"
-					sx={{ paddingTop: "10px" }}
-				>
+		<Box sx={containerSX}>
+			<Box sx={{ textAlign: "center", paddingInline: "8px" }}>
+				<Typography sx={primaryTextSX}>
 					All data and images comes from RAWG.{" "}
 					<a href="https://rawg.io/apidocs">
 						Find more at https://rawg.io/apidocs{" "}
@@ -33,25 +36,24 @@ const MainPage = () => {
 				isSearchFocused={isSearchFocused}
 			/>
 			{hasResults && isSearchFocused && (
-				<div
-					style={{
-						position: "fixed",
-						top: 0,
-						left: 0,
-						width: "100%",
-						height: "100%",
-						backgroundColor: "rgba(0, 0, 0, 0.9)", // Przyciemnienie tła
-						zIndex: 1000, // Overlay nad innymi elementami
-					}}
-				></div>
+				<Box
+					component="div"
+					sx={overlaySX}
+				></Box>
 			)}
-			<Box>
+			<Box
+				component="div"
+				sx={{ marginTop: "20px" }}
+			>
 				{gameListsQueries.map((gameList) => (
-					<Box>
+					<Box
+						component="div"
+						key={gameList.title}
+					>
 						<Typography
 							variant="h5"
-							component="h5"
-							fontFamily="Tektur, cursive"
+							component="span"
+							sx={categoryTitlesSX}
 						>
 							{gameList.title}
 						</Typography>

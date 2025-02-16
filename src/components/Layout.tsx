@@ -3,10 +3,10 @@ import Navigation from "./Navigation";
 
 function Layout() {
 	return (
-		<div>
+		<>
 			<Navigation />
 			<Outlet />
-		</div>
+		</>
 	);
 }
 

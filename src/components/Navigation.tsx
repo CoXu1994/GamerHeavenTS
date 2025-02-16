@@ -52,7 +52,7 @@ const Navigation = () => {
 						anchor="top"
 						variant="temporary"
 						open={open}
-						onClose={() => toggleDrawer(false)}
+						onClick={() => toggleDrawer(false)}
 					>
 						<Box
 							sx={{
@@ -67,14 +67,11 @@ const Navigation = () => {
 								<ListItemButton
 									sx={{
 										borderBottom: "1px solid white",
-										height: 64,
+										height: "64px",
 										width: "100%",
 									}}
 								>
-									<Typography
-										fontFamily="Tektur, cursive"
-										color="white"
-									>
+									<Typography sx={primaryTextSX}>
 										Go to wish list
 									</Typography>
 								</ListItemButton>
@@ -85,14 +82,11 @@ const Navigation = () => {
 							>
 								<ListItemButton
 									sx={{
-										height: 64,
+										height: "64px",
 										width: "100%",
 									}}
 								>
-									<Typography
-										fontFamily="Tektur, cursive"
-										color="white"
-									>
+									<Typography sx={primaryTextSX}>
 										Go to categories
 									</Typography>
 								</ListItemButton>

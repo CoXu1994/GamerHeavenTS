@@ -1,7 +1,11 @@
+:root {
+	--main-font-size: 16;
+}
 * {
 	box-sizing: border-box;
 	font-family: "Tektur", cursive;
 	color: white;
+	font-size: var(--main-font-size);
 }
 
 body {
